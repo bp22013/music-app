@@ -1,8 +1,10 @@
 'use client'
+
 import React, { useEffect, useState } from 'react';
 import { Database } from '../database/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Image from 'next/image';
+import { Button } from '@nextui-org/react';
 
 type Profiles = Database['public']['Tables']['profiles']['Row'];
 
@@ -80,9 +82,18 @@ export default function Avatar({
         <div className="w-fit mx-auto" style={{ height: size, width: size }} />
       )}
       <div className='mx-auto' style={{ width: size }}>
-        <label className="bg-brand-green text-white p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center" htmlFor="single">
+        <label className="visually-hidden" htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>
+        <Button
+          className="bg-brand-green text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
+          variant="gradient"
+          size="small"
+          disabled={uploading}
+          onClick={() => document.getElementById('single')?.click()}
+        >
+          {uploading ? 'Uploading ...' : 'Upload'}
+        </Button>
         <input
           style={{
             visibility: 'hidden',
