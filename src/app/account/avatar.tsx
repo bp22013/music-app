@@ -87,7 +87,6 @@ export default function Avatar({
         </label>
         <Button
           className="bg-brand-green text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
-          variant="gradient"
           size="small"
           disabled={uploading}
           onClick={() => document.getElementById('single')?.click()}
