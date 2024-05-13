@@ -128,7 +128,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
             onClick={() => updateProfile({ fullname, username, website, avatar_url })}
             disabled={loading}
           >
-            {loading ? 'Loading ...' : 'Update'}
+            {loading ? 'Loading ...' : '更新'}
           </Button>
         </div>
 
