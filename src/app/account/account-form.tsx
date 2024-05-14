@@ -135,10 +135,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 </div>
                 <div className='flex flex-col gap-2 mb-2'>
                     <label htmlFor='introduce'>自己紹介</label>
-                    <Input
-                        className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
+                    <textarea
+                        className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black h-24' // h-24で高さを設定
                         id='introduce'
-                        type='text'
                         value={introduce || ''}
                         placeholder=''
                         onChange={(e) => setIntroduce(e.target.value)}
