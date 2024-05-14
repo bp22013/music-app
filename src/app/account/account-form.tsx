@@ -133,14 +133,6 @@ export default function AccountForm({ session }: { session: Session | null }) {
                         {loading ? 'ロード中 ...' : '更新'}
                     </Button>
                 </div>
-
-                <div className='mx-auto w-fit min-w-[150px]'>
-                    <form action="/auth/signout" method="post">
-                        <Button className="bg-green-400 text-white p-3 rounded-md hover:opacity-90 w-full" type="submit">
-                            ログアウト
-                        </Button>
-                    </form>
-                </div>
             </div>
         </>
     )
