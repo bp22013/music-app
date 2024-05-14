@@ -34,7 +34,7 @@ export default function Avatar({
         const url = URL.createObjectURL(data);
         setAvatarUrl(url);
       } catch (error) {
-        console.log('Error downloading image: ', error);
+        console.log('ダウンローダエラー: ', error);
       };
     }
 
@@ -46,7 +46,7 @@ export default function Avatar({
       setUploading(true)
 
       if (!event.target.files || event.target.files.length === 0) {
-        throw new Error('You must select an image to upload.')
+        throw new Error('写真を選択してください')
       };
 
       const file = event.target.files[0];
@@ -61,7 +61,7 @@ export default function Avatar({
 
       onUpload(filePath)
     } catch (error) {
-        console.log('Error uploading avatar!');
+        console.log('アバターをアップロード出来ませんでした。');
     } finally {
       setUploading(false);
     }
@@ -83,7 +83,7 @@ export default function Avatar({
       )}
       <div className='mx-auto' style={{ width: size }}>
         <label className="visually-hidden" htmlFor="single">
-          {uploading ? 'Uploading ...' : 'Upload'}
+          {uploading ? 'アップロード中 ...' : 'アップロード'}
         </label>
         <Button
           className="bg-brand-green text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
@@ -92,7 +92,7 @@ export default function Avatar({
           disabled={uploading}
           onClick={() => document.getElementById('single')?.click()}
         >
-          {uploading ? 'Uploading ...' : 'Upload'}
+          {uploading ? '更新中 ...' : '更新'}
         </Button>
         <input
           style={{
@@ -109,3 +109,4 @@ export default function Avatar({
     </div>
   )
 }
+
