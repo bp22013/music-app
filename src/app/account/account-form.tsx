@@ -14,6 +14,8 @@ export default function AccountForm({ session }: { session: Session | null }) {
     const [username, setUsername] = useState<string | null>(null);
     const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+    const [introduce, setIntroduce] = useState<string | null>(null);
+
     const user = session?.user;
 
     const getProfile = useCallback(async () => {
@@ -69,7 +71,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 updated_at: new Date().toISOString(),
             })
             if (error) throw error
-            console.log('Profile updated!');
+            console.log('プロフィールを更新しました');
         } catch (error) {
             console.log('データを更新できませんでした');
         } finally {
@@ -94,11 +96,12 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     <Input className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black' id="email" type="text" value={session?.user.email} disabled />
                 </div>
                 <div className='flex flex-col gap-2 mb-2'>
-                    <label htmlFor="fullName">フルネーム</label>
+                    <label htmlFor="fullName">名前</label>
                     <Input
                         className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
                         id="fullName"
                         type="text"
+                        defaultValue='name'
                         value={fullname || ''}
                         onChange={(e) => setFullname(e.target.value)}
                     />
@@ -109,18 +112,31 @@ export default function AccountForm({ session }: { session: Session | null }) {
                         className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
                         id="username"
                         type="text"
+                        placeholder='user'
                         value={username || ''}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
                 <div className='flex flex-col gap-2 mb-2'>
-                    <label htmlFor="website">Website</label>
+                    <label htmlFor="website">リンク</label>
                     <Input
                         className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
                         id="website"
                         type="url"
                         value={website || ''}
+                        placeholder='example@url.com'
                         onChange={(e) => setWebsite(e.target.value)}
+                    />
+                </div>
+                <div className='flex flex-col gap-2 mb-2'>
+                    <label htmlFor='introduce'>自己紹介</label>
+                    <Input
+                        className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
+                        id='introduce'
+                        type='text'
+                        value={introduce || ''}
+                        placeholder=''
+                        onChange={(e) => setIntroduce(e.target.value)}
                     />
                 </div>
 
