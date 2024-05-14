@@ -24,7 +24,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
             const { data, error, status } = await supabase
                 .from('profiles')
-                .select(`full_name, username, website, avatar_url`)
+                .select(`full_name, username, website, avatar_url, introduce`)
                 .eq('id', user?.id ?? '')
                 .single()
 
@@ -37,6 +37,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 setUsername(data.username);
                 setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
+                setIntroduce(data.introduce); // introduce フィールドをセット
             }
         } catch (error) {
             console.log('ユーザーデータを読み込めませんでした');
@@ -50,14 +51,17 @@ export default function AccountForm({ session }: { session: Session | null }) {
     }, [user, getProfile])
 
     async function updateProfile({
+        fullname,
         username,
         website,
         avatar_url,
+        introduce,
     }: {
-        username: string | null
         fullname: string | null
+        username: string | null
         website: string | null
         avatar_url: string | null
+        introduce: string | null
     }) {
         try {
             setLoading(true)
@@ -68,6 +72,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 username,
                 website,
                 avatar_url,
+                introduce,
                 updated_at: new Date().toISOString(),
             })
             if (error) throw error
@@ -88,7 +93,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     size={150}
                     onUpload={(url) => {
                         setAvatarUrl(url)
-                        updateProfile({ fullname, username, website, avatar_url: url })
+                        updateProfile({ fullname, username, website, avatar_url: url, introduce })
                     }}
                 />
                 <div className='flex flex-col gap-2 mb-2'>
@@ -143,7 +148,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 <div className='mx-auto w-fit py-5 min-w-[150px]'>
                     <Button
                         className="bg-red-400 text-white p-3 rounded-md hover:opacity-90 w-full"
-                        onClick={() => updateProfile({ fullname, username, website, avatar_url })}
+                        onClick={() => updateProfile({ fullname, username, website, avatar_url, introduce })}
                         disabled={loading}
                     >
                         {loading ? 'ロード中 ...' : '更新'}
@@ -153,3 +158,4 @@ export default function AccountForm({ session }: { session: Session | null }) {
         </>
     )
 }
+
