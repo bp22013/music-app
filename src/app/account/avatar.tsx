@@ -82,17 +82,14 @@ export default function Avatar({
         <div className="w-fit mx-auto" style={{ height: size, width: size }} />
       )}
       <div className='mx-auto' style={{ width: size }}>
-        <label className="visually-hidden" htmlFor="single">
-          {uploading ? 'アップロード中 ...' : 'アップロード'}
-        </label>
         <Button
-          className="bg-brand-green text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
+          className="bg-green-420 text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
           variant="flat"
-          size="md"
+          size='md'
           disabled={uploading}
           onClick={() => document.getElementById('single')?.click()}
         >
-          {uploading ? '更新中 ...' : '更新'}
+          {uploading ? 'アップロード中 ...' : '写真をアップロード'}
         </Button>
         <input
           style={{
@@ -109,4 +106,3 @@ export default function Avatar({
     </div>
   )
 }
-
