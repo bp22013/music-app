@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Database } from '../database/database.types';
-import { Input, Button, Textarea } from '@nextui-org/react';
+import { Input, Button, Textarea, ModalContent, useDisclosure, Modal, ModalHeader, ModalFooter } from '@nextui-org/react';
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from './avatar';
 
@@ -15,6 +15,8 @@ export default function AccountForm({ session }: { session: Session | null }) {
     const [website, setWebsite] = useState<string | null>(null);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const [introduce, setIntroduce] = useState<string | null>(null);
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const user = session?.user;
 
@@ -77,6 +79,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
             })
             if (error) throw error
             console.log('プロフィールを更新しました');
+            onOpen(); // プロフィール更新成功時にモーダルを開く
         } catch (error) {
             console.log('データを更新できませんでした');
         } finally {
@@ -153,6 +156,18 @@ export default function AccountForm({ session }: { session: Session | null }) {
                     >
                         {loading ? 'ロード中 ...' : '更新'}
                     </Button>
+                </div>
+                <div>
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                        <ModalContent>
+                            <ModalHeader>更新しました</ModalHeader>
+                            <ModalFooter>
+                                <Button color="primary" variant="light" onClick={onClose}>
+                                    閉じる
+                                </Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
                 </div>
             </div>
         </>
