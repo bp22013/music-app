@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Database } from '../database/database.types';
-import { Input, Button } from '@nextui-org/react';
+import { Input, Button, Textarea } from '@nextui-org/react';
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Avatar from './avatar';
 
@@ -135,7 +135,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 </div>
                 <div className='flex flex-col gap-2 mb-2'>
                     <label htmlFor='introduce'>自己紹介</label>
-                    <textarea
+                    <Textarea
                         className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black'
                         id='introduce'
                         value={introduce || ''}
