@@ -37,7 +37,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
                 setUsername(data.username);
                 setWebsite(data.website);
                 setAvatarUrl(data.avatar_url);
-                setIntroduce(data.introduce); // introduce フィールドをセット
+                setIntroduce(data.introduce);
             }
         } catch (error) {
             console.log('ユーザーデータを読み込めませんでした');
