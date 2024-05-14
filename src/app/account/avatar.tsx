@@ -86,6 +86,7 @@ export default function Avatar({
           className="bg-green-420 text-black p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
           variant="flat"
           size='md'
+          color='primary'
           disabled={uploading}
           onClick={() => document.getElementById('single')?.click()}
         >
