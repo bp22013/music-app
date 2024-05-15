@@ -1,64 +1,57 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, Avatar, useDisclosure } from "@nextui-org/react";
-import { createClientComponentClient, Session } from '@supabase/auth-helpers-nextjs';
+import React, { useState, useEffect } from "react";
+import { Link, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, Avatar, useDisclosure } from "@nextui-org/react";
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
-import { Database } from "@/utils/supabase/supabase-client";
 
-const UserAvatar = ({ session }: { session: Session | null }) => {
+const UserAvatar = () => {
+    const [session, setSession] = useState<any>();
     const [avatarSrc, setAvatarSrc] = useState<string | undefined>();
-    const supabase = createClientComponentClient<Database>();
-    const [loading, setLoading] = useState(true);
+    const supabase = createClientComponentClient();
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const user = session?.user;
-
-    const getProfile = useCallback(async () => {
-        try {
-            setLoading(true);
-
-            const { data, error, status } = await supabase
-                .from('profiles')
-                .select(`full_name, username, website, avatar_url, introduce`)
-                .eq('id', user?.id ?? '')
-                .single();
-
-            if (error && status !== 406) {
-                throw error;
-            }
-
-            if (data) {
-                const { avatar_url } = data;
-
-                if (avatar_url) {
-                    const { data: imageData, error: imageError } = await supabase
-                        .storage
-                        .from('avatars')  // ここはあなたのストレージバケット名に置き換えてください
-                        .download(avatar_url);
-
-                    if (imageError) {
-                        throw imageError;
-                    }
-
-                    const url = URL.createObjectURL(imageData);
-                    setAvatarSrc(url);
-                }
-            }
-        } catch (error) {
-            console.log('ユーザーデータを読み込めませんでした', error);
-        } finally {
-            setLoading(false);
+    const checkSession = async () => {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (error) {
+          console.log(error);
         }
-    }, [user, supabase]);
+    
+        setSession(session);
+    
+        const code = searchParams.get("code");
+        if (code != null) {
+          try {
+            await supabase.auth.exchangeCodeForSession(code!!);
+          } catch (error) {
+            console.log(error);
+          }
+    
+          const { data: { session }, error } = await supabase.auth.getSession();
+          if (error) {
+            console.log(error);
+            return;
+          }
+    
+          setSession(session);
+    
+          router.push('/');
+        } else {
+          if (session == null && pathname?.includes('/')) {
+            router.push('/');
+          }
+        }
+    };
+    
+    useEffect(() => {
+        checkSession();
+    }, []);
 
     useEffect(() => {
-        if (user) {
-            getProfile();
-        }
-    }, [user, getProfile]);
+        setAvatarSrc(session?.user?.user_metadata.avatar_url);
+    }, [session]);
 
     return (
         <div>
@@ -76,7 +69,7 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
                         <div className="flex item_center justify-between">
                             <span>マイページ</span>
                             <BsFillPersonFill className="w-4 h-4"/>
-                        </div>
+                        </div> 
                     </DropdownItem>
                     <DropdownItem key="team_settings" color="primary" href="/account">
                         <div className="flex item_center justify-between">
@@ -118,3 +111,4 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
 }
 
 export default UserAvatar;
+
