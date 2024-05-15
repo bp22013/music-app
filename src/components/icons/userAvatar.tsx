@@ -35,46 +35,13 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
         } finally {
             setLoading(false);
         }
-    }, [user, supabase])
+    }, [user, supabase]);
 
     useEffect(() => {
-      getProfile();
-    }, [user, getProfile])
-
-    async function updateProfile({
-        fullname,
-        username,
-        website,
-        avatar_url,
-        introduce,
-    }: {
-        fullname: string | null
-        username: string | null
-        website: string | null
-        avatar_url: string | null
-        introduce: string | null
-    }) {
-        try {
-            setLoading(true)
-
-            const { error } = await supabase.from('profiles').upsert({
-                id: user?.id as string,
-                full_name: fullname,
-                username,
-                website,
-                avatar_url,
-                introduce,
-                updated_at: new Date().toISOString(),
-            })
-            if (error) throw error
-            console.log('プロフィールを更新しました');
-            onOpen();
-        } catch (error) {
-            console.log('データを更新できませんでした');
-        } finally {
-            setLoading(false);
-        }
-    };
+      if (user) {
+        getProfile();
+      }
+    }, [user, getProfile]);
 
     return (
         <div>
@@ -84,7 +51,7 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src={avatar_url+""}
+                        src={avatar_url || undefined}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -134,3 +101,4 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
 }
 
 export default UserAvatar;
+
