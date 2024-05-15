@@ -61,7 +61,7 @@ const UserAvatar = () => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src={session.user_metadata.url}
+                        src={avatarSrc}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
