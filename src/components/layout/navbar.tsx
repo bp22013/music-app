@@ -163,7 +163,7 @@ const Navigation = () => {
                                 <BsEnvelope className='h-8 w-8 ml-2' />
                             </NavbarItem>
                             <NavbarItem className='ml-5'>
-                                <UserAvatar />
+                                <UserAvatar session={session}/>
                             </NavbarItem>
                         </>
                     ) : (
