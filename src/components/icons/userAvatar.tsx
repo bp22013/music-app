@@ -1,57 +1,80 @@
-import React, { useState, useEffect } from "react";
-import { Link, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, Avatar, useDisclosure } from "@nextui-org/react";
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import React, { useState, useEffect, useCallback } from "react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, Avatar, useDisclosure } from "@nextui-org/react";
+import { createClientComponentClient, Session } from '@supabase/auth-helpers-nextjs';
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
+import { Database } from "@/app/database/database.types";
 
-const UserAvatar = () => {
-    const [session, setSession] = useState<any>();
-    const [avatarSrc, setAvatarSrc] = useState<string | undefined>();
-    const supabase = createClientComponentClient();
-    const pathname = usePathname();
-    const router = useRouter();
-    const searchParams = useSearchParams();
+const UserAvatar = ({ session }: { session: Session | null }) => {
+    const supabase = createClientComponentClient<Database>();
+    const [loading, setLoading] = useState(true);
+    const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const checkSession = async () => {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error) {
-          console.log(error);
+    const user = session?.user;
+
+    const getProfile = useCallback(async () => {
+        try {
+            setLoading(true);
+
+            const { data, error, status } = await supabase
+                .from('profiles')
+                .select(`avatar_url`)
+                .eq('id', user?.id ?? '')
+                .single()
+
+            if (error && status !== 406) {
+                throw error;
+            };
+
+            if (data) {
+                setAvatarUrl(data.avatar_url);
+            }
+        } catch (error) {
+            console.log('ユーザーデータを読み込めませんでした');
+        } finally {
+            setLoading(false);
         }
-    
-        setSession(session);
-    
-        const code = searchParams.get("code");
-        if (code != null) {
-          try {
-            await supabase.auth.exchangeCodeForSession(code!!);
-          } catch (error) {
-            console.log(error);
-          }
-    
-          const { data: { session }, error } = await supabase.auth.getSession();
-          if (error) {
-            console.log(error);
-            return;
-          }
-    
-          setSession(session);
-    
-          router.push('/');
-        } else {
-          if (session == null && pathname?.includes('/')) {
-            router.push('/');
-          }
-        }
-    };
-    
-    useEffect(() => {
-        checkSession();
-    }, []);
+    }, [user, supabase])
 
     useEffect(() => {
-        setAvatarSrc(session?.user?.user_metadata.avatar_url);
-    }, [session]);
+      getProfile();
+    }, [user, getProfile])
+
+    async function updateProfile({
+        fullname,
+        username,
+        website,
+        avatar_url,
+        introduce,
+    }: {
+        fullname: string | null
+        username: string | null
+        website: string | null
+        avatar_url: string | null
+        introduce: string | null
+    }) {
+        try {
+            setLoading(true)
+
+            const { error } = await supabase.from('profiles').upsert({
+                id: user?.id as string,
+                full_name: fullname,
+                username,
+                website,
+                avatar_url,
+                introduce,
+                updated_at: new Date().toISOString(),
+            })
+            if (error) throw error
+            console.log('プロフィールを更新しました');
+            onOpen();
+        } catch (error) {
+            console.log('データを更新できませんでした');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <div>
@@ -61,7 +84,7 @@ const UserAvatar = () => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src={avatarSrc}
+                        src={avatar_url+""}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -111,4 +134,3 @@ const UserAvatar = () => {
 }
 
 export default UserAvatar;
-
