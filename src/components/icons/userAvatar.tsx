@@ -3,45 +3,53 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, M
 import { createClientComponentClient, Session } from '@supabase/auth-helpers-nextjs';
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
 import { Database } from "@/app/database/database.types";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const UserAvatar = ({ session }: { session: Session | null }) => {
+const UserAvatar = () => {
+
     const supabase = createClientComponentClient<Database>();
-    const [loading, setLoading] = useState(true);
+    const [session, setSession] = useState<any>();
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
-
+    const pathname = usePathname();
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const user = session?.user;
-
-    const getProfile = useCallback(async () => {
-        try {
-            setLoading(true);
-
-            const { data, error, status } = await supabase
-                .from('profiles')
-                .select(`avatar_url`)
-                .eq('id', user?.id ?? '')
-                .single()
-
-            if (error && status !== 406) {
-                throw error;
-            };
-
-            if (data) {
-                setAvatarUrl(data.avatar_url);
-            }
-        } catch (error) {
-            console.log('ユーザーデータを読み込めませんでした');
-        } finally {
-            setLoading(false);
+    const checkSession = async () => {
+        const { data: { session }, error } = await supabase.auth.getSession()
+        if (error) {
+            console.log(error);
         }
-    }, [user, supabase]);
+
+        setSession(session)
+
+        const code = searchParams.get("code");
+        if (code != null) {
+            try {
+                await supabase.auth.exchangeCodeForSession(code!!)
+            } catch (error) {
+
+            }
+
+            const { data: { session }, error } = await supabase.auth.getSession()
+            if (error) {
+                console.log(error);
+                return
+            }
+
+            setSession(session)
+
+            router.push('/')
+        } else {
+            if (session == null && !pathname?.includes('/resetPassword')) {
+                router.push('/');
+            }
+        }
+    }
 
     useEffect(() => {
-      if (user) {
-        getProfile();
-      }
-    }, [user, getProfile]);
+        checkSession()
+    }, [])
 
     return (
         <div>
@@ -51,7 +59,7 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src="0f5901df-ecdd-42d6-aaee-ee968df49220-0.4071988955189749.jpeg"
+                        src={session?.user?.user_metadata.avatar_url}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
@@ -101,4 +109,3 @@ const UserAvatar = ({ session }: { session: Session | null }) => {
 }
 
 export default UserAvatar;
-
