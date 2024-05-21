@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, Avatar, useDisclosure } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { createClientComponentClient, Session } from '@supabase/auth-helpers-nextjs';
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
 import { Database } from "@/app/database/database.types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Avatar from "@/app/account/avatar";
 
 const UserAvatar = () => {
 
@@ -87,10 +88,10 @@ const UserAvatar = () => {
             <Dropdown placement="bottom-start">
                 <DropdownTrigger>
                     <Avatar
-                        isBordered
-                        as="button"
-                        className="transition-transform"
-                        src={ avatar_url || undefined }
+                        uid={user?.id ?? ''}
+                        url={avatar_url}
+                        size={35}
+                        onUpload={() => ""}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
