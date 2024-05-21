@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalFooter, useDisclosure } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Modal, ModalContent, Image, ModalHeader, ModalFooter, useDisclosure, AvatarIcon } from "@nextui-org/react";
 import { createClientComponentClient, Session } from '@supabase/auth-helpers-nextjs';
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
 import { Database } from "@/app/database/database.types";
@@ -87,12 +87,25 @@ const UserAvatar = () => {
         <div>
             <Dropdown placement="bottom-start">
                 <DropdownTrigger>
-                    <Avatar
-                        uid={user?.id ?? ''}
-                        url={avatar_url}
-                        size={35}
-                        onUpload={() => ""}
-                    />
+                    {avatar_url? (
+                        <Image
+                            width="30"
+                            height="30"
+                            src={avatar_url}
+                            alt="Avatar"
+                            className="w-fit mx-auto pb-3 object-cover"
+                            style={{ height: 30, width: 30 }}
+                      />
+                    ) : (
+                        <Image
+                            width="30"
+                            height="30"
+                            src="./avatars.jpeg"
+                            className="w-fit mx-auto pb-3 object-cover"
+                            alt="Avatar"
+                            style={{ height: 30, width: 30 }}
+                        />
+                    )}
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
                     <DropdownItem key="settings" color="primary" href="/profile">
