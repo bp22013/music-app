@@ -4,14 +4,15 @@ import { createClientComponentClient, Session } from '@supabase/auth-helpers-nex
 import { BsDoorOpen, BsQuestionCircle, BsFillGearFill, BsFillPersonFill } from "react-icons/bs";
 import { Database } from "@/app/database/database.types";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Avatar from "@/app/account/avatar";
+
+type Profiles = Database['public']['Tables']['profiles']['Row'];
 
 const UserAvatar = () => {
 
     const supabase = createClientComponentClient<Database>();
     const [session, setSession] = useState<any>();
     const [loading, setLoading] = useState(true);
-    const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+    const [avatar_url, setAvatarUrl] = useState<Profiles['avatar_url']>();
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
