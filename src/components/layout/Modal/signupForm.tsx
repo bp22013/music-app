@@ -36,9 +36,10 @@ const SignUpForm = () => {
                 throw signUpError;
             }
             alert("登録完了メールを確認してください");
-            closeModal()
+            onclose
         } catch (error) {
             alert("エラーが発生しました");
+            onclose
         }
     }
 
