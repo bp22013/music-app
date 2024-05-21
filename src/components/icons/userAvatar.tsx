@@ -9,11 +9,14 @@ const UserAvatar = () => {
 
     const supabase = createClientComponentClient<Database>();
     const [session, setSession] = useState<any>();
+    const [loading, setLoading] = useState(true);
     const [avatar_url, setAvatarUrl] = useState<string | null>(null);
     const pathname = usePathname();
     const router = useRouter();
     const searchParams = useSearchParams();
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const user = session?.user;
 
     const checkSession = async () => {
         const { data: { session }, error } = await supabase.auth.getSession()
@@ -51,6 +54,34 @@ const UserAvatar = () => {
         checkSession()
     }, [])
 
+    const getProfile = useCallback(async () => {
+        try {
+            setLoading(true);
+
+            const { data, error, status } = await supabase
+                .from('profiles')
+                .select(`avatar_url`)
+                .eq('id', user?.id ?? '')
+                .single()
+
+            if (error && status !== 406) {
+                throw error;
+            };
+
+            if (data) {
+                setAvatarUrl(data.avatar_url);
+            }
+        } catch (error) {
+            console.log('ユーザーデータを読み込めませんでした');
+        } finally {
+            setLoading(false);
+        }
+    }, [user, supabase])
+
+    useEffect(() => {
+      getProfile();
+    }, [user, getProfile])
+
     return (
         <div>
             <Dropdown placement="bottom-start">
@@ -59,7 +90,7 @@ const UserAvatar = () => {
                         isBordered
                         as="button"
                         className="transition-transform"
-                        src={session?.user?.user_metadata.avatar_url}
+                        src={ avatar_url || undefined }
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
