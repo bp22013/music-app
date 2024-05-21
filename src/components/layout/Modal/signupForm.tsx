@@ -1,7 +1,8 @@
 "use client";
 
 import { supabase } from "@/utils/supabase/supabase-client";
-import { useState } from "react";
+import { User } from "@supabase/supabase-js";
+import { useState, useEffect } from "react";
 import { useModal } from "@/utils/Providers/ModalProvider";
 import React from "react";
 import { Button, Checkbox, Input, Link, Modal, ModalContent,
@@ -19,7 +20,7 @@ const SignUpForm = () => {
     const [password, setPassword] = useState("");
     const [passwordConf, setPasswordConf] = useState("");
 
-    const supabase = createClientComponentClient()
+    const supabase = createClientComponentClient();
 
     const onSubmit = async (event: any) => {
         event.preventDefault();
@@ -35,6 +36,7 @@ const SignUpForm = () => {
                 throw signUpError;
             }
             alert("登録完了メールを確認してください");
+            closeModal()
         } catch (error) {
             alert("エラーが発生しました");
         }
@@ -70,7 +72,7 @@ const SignUpForm = () => {
                             variant="bordered"
                             label="メールアドレス"
                             id="email"
-                            placeholder="name@company.com"
+                            placeholder="example@email.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
