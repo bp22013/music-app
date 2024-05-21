@@ -29,7 +29,7 @@ const SignUpForm = () => {
                 email: email,
                 password: password,
                 options: {
-                    emailRedirectTo: `${location.origin}/auth/callback`,
+                    emailRedirectTo: `${location.origin}/app/auth/callback`,
                 },
             });
             if (signUpError) {
