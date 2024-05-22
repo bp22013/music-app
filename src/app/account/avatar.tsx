@@ -5,6 +5,7 @@ import { Database } from '../database/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Image } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
+import NextImage from "next/image";
 
 type Profiles = Database['public']['Tables']['profiles']['Row'];
 
@@ -71,11 +72,12 @@ export default function Avatar({
     <div className='pb-10'>
       {avatarUrl ? (
         <Image
+          as={NextImage}
           width={size}
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          className="w-fit mx-auto pb-3 object-cover"
+          className="w-fit mx-auto my-auto object-cover"
           radius="full"
           style={{ height: size, width: size }}
         />
