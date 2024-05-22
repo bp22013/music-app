@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Database } from '../database/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
 
 type Profiles = Database['public']['Tables']['profiles']['Row'];
@@ -75,8 +75,8 @@ export default function Avatar({
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          radius="full"
           className="w-fit mx-auto pb-3 object-cover"
+          radius="full"
           style={{ height: size, width: size }}
         />
       ) : (
