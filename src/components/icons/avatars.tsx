@@ -47,7 +47,7 @@ export default function Avatar({
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          className="w-fit mx-auto pb-3 object-cover"
+          className="w-fit mx-auto pb-3 pt-6 object-cover"
           style={{ height: size, width: size }}
         />
       ) : (
@@ -57,7 +57,7 @@ export default function Avatar({
           height={size}
           src="./avatars.jpeg"
           alt='Avatar'
-          className='w-fit mx-auto pb-3 object-cover'
+          className='w-fit mx-auto pb-3 pt-6 object-cover'
           style={{ height: size, width: size }}
         />
       )}
