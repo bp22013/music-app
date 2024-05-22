@@ -48,6 +48,7 @@ export default function Avatar({
           src={avatarUrl}
           alt="Avatar"
           className="w-fit mx-auto my-auto object-cover"
+          radius='full'
           style={{ height: size, width: size }}
         />
       ) : (
@@ -58,10 +59,10 @@ export default function Avatar({
           src="./avatars.jpeg"
           alt='Avatar'
           className='w-fit mx-auto my-auto object-cover'
+          radius='full'
           style={{ height: size, width: size }}
         />
       )}
     </div>
   )
 }
-
