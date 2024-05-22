@@ -39,7 +39,7 @@ export default function Avatar({
   }, [url, supabase]);
 
   return (
-    <div className='pb-10'>
+    <div>
       {avatarUrl ? (
         <Image
           as={NextImage}
@@ -47,7 +47,7 @@ export default function Avatar({
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          className="w-fit mx-auto pb-3 my-auto object-cover"
+          className="w-fit mx-auto my-auto object-cover"
           style={{ height: size, width: size }}
         />
       ) : (
@@ -57,10 +57,11 @@ export default function Avatar({
           height={size}
           src="./avatars.jpeg"
           alt='Avatar'
-          className='w-fit mx-auto pb-3 my-auto object-cover'
+          className='w-fit mx-auto my-auto object-cover'
           style={{ height: size, width: size }}
         />
       )}
     </div>
   )
 }
+
