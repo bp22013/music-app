@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { Database } from '@/app/database/database.types';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Image from 'next/image';
+import { Image } from '@nextui-org/react';
+import NextImage from "next/image";
 
 type Profiles = Database['public']['Tables']['profiles']['Row'];
 
@@ -41,6 +42,7 @@ export default function Avatar({
     <div className='pb-10'>
       {avatarUrl ? (
         <Image
+          as={NextImage}
           width={size}
           height={size}
           src={avatarUrl}
@@ -50,6 +52,7 @@ export default function Avatar({
         />
       ) : (
         <Image
+          as={NextImage}
           width={size}
           height={size}
           src="./avatars.jpeg"
