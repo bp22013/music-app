@@ -92,7 +92,7 @@ const UserAvatar = () => {
                     <Avatar
                         uid={user?.id ?? ''}
                         url={avatar_url}
-                        size={70}
+                        size={30}
                     />
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
