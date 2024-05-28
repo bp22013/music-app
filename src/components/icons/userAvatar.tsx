@@ -89,12 +89,11 @@ const UserAvatar = () => {
         <div>
             <Dropdown placement="bottom-start">
                 <DropdownTrigger>
-                    <Button radius="full" className="w-45 h-45">
+                    <Button radius="full" style={{ width: '45px', height: '45px' }}>
                         <Avatar
                             uid={user?.id ?? ''}
                             url={avatar_url}
                             size={45}
-                            
                         />
                     </Button>
                 </DropdownTrigger>
@@ -145,3 +144,4 @@ const UserAvatar = () => {
 }
 
 export default UserAvatar;
+
