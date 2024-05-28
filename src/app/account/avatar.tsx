@@ -86,7 +86,7 @@ export default function Avatar({
       )}
       <div className='mx-auto' style={{ width: size }}>
         <Button
-          className="p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
+          className="p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center mt-5"
           variant="flat"
           color="primary"
           size='md'
