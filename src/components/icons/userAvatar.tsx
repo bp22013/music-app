@@ -89,14 +89,14 @@ const UserAvatar = () => {
         <div>
             <Dropdown placement="bottom-start">
                 <DropdownTrigger>
-                    <button>
+                    <Button radius="full">
                         <Avatar
                             uid={user?.id ?? ''}
                             url={avatar_url}
                             size={45}
                             
                         />
-                    </button>
+                    </Button>
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Profile Actions" variant="flat">
                     <DropdownItem key="settings" color="primary" href="/profile">
