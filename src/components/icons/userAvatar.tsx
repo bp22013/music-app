@@ -89,7 +89,7 @@ const UserAvatar = () => {
         <div>
             <Dropdown placement="bottom-start">
                 <DropdownTrigger>
-                    <Button radius="full" style={{ width: '45px', height: '45px' }}>
+                    <Button isIconOnly radius="full" style={{ width: '45px', height: '45px' }}>
                         <Avatar
                             uid={user?.id ?? ''}
                             url={avatar_url}
