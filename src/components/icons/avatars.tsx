@@ -47,7 +47,7 @@ export default function Avatar({
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          className="w-fit mx-auto my-auto object-cover"
+          className="w-fit mx-auto object-cover"
           radius='full'
           style={{ height: size, width: size }}
         />
