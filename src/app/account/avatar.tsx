@@ -77,7 +77,7 @@ export default function Avatar({
           height={size}
           src={avatarUrl}
           alt="Avatar"
-          className="w-fit object-cover"
+          className="w-fit mx-auto my-auto object-cover"
           radius="full"
           style={{ height: size, width: size }}
         />
@@ -86,7 +86,7 @@ export default function Avatar({
       )}
       <div className='mx-auto' style={{ width: size }}>
         <Button
-          className="p-3 rounded-md hover:opacity-90 cursor-pointer w-fit flex justify-center"
+          className="p-3 rounded-md hover:opacity-90 cursor-pointer w-fit mx-auto flex justify-center"
           variant="flat"
           color="primary"
           size='md'
