@@ -79,7 +79,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
             })
             if (error) throw error
             console.log('プロフィールを更新しました');
-            onOpen(); // プロフィール更新成功時にモーダルを開く
+            onOpen();
         } catch (error) {
             console.log('データを更新できませんでした');
         } finally {
@@ -89,7 +89,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto p-5">
+            <div className="max-w-2xl mx-auto my-auto">
                 <Avatar
                     uid={user?.id ?? ''}
                     url={avatar_url}
