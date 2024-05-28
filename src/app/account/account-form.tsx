@@ -90,15 +90,17 @@ export default function AccountForm({ session }: { session: Session | null }) {
     return (
         <>
             <div className="max-w-2xl mx-auto my-auto">
-                <Avatar
-                    uid={user?.id ?? ''}
-                    url={avatar_url}
-                    size={150}
-                    onUpload={(url) => {
-                        setAvatarUrl(url)
-                        updateProfile({ fullname, username, website, avatar_url: url, introduce })
-                    }}
-                />
+                <div className="flex justify-center mb-4">
+                    <Avatar
+                        uid={user?.id ?? ''}
+                        url={avatar_url}
+                        size={150}
+                        onUpload={(url) => {
+                            setAvatarUrl(url)
+                            updateProfile({ fullname, username, website, avatar_url: url, introduce })
+                        }}
+                    />
+                </div>
                 <div className='flex flex-col gap-2 mb-2'>
                     <label htmlFor="email">メールアドレス</label>
                     <Input className='border border-brand-green p-3 rounded-md bg-opacity-50 text-black' id="email" type="text" value={session?.user.email} disabled />
@@ -173,4 +175,3 @@ export default function AccountForm({ session }: { session: Session | null }) {
         </>
     )
 }
-
