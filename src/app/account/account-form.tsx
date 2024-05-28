@@ -90,7 +90,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
     return (
         <>
             <div className="max-w-2xl mx-auto my-auto">
-                <div className="flex justify-center mb-4">
+                <div className="flex justify-center mb-4 my-5">
                     <Avatar
                         uid={user?.id ?? ''}
                         url={avatar_url}
