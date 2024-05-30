@@ -1,13 +1,12 @@
-"use client";
+'use Server';
 
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextPage } from "next";
 import { useState } from 'react';
-import { Database } from '../database/database.types';
+import { Database } from '@/app/database/database.types';
 import { Input, Button, Textarea, ModalContent, useDisclosure, Modal, ModalHeader, ModalFooter } from '@nextui-org/react';
-import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import Avatar from '../account/avatar';
+import Avatar from '@/app/account/avatar';
 
 const AccountForm:NextPage = async () => {
 
